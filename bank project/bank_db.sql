@@ -1,0 +1,119 @@
+-- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
+--
+-- Host: localhost    Database: bank_db
+-- ------------------------------------------------------
+-- Server version	8.0.39
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `contact_requests`
+--
+
+DROP TABLE IF EXISTS `contact_requests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contact_requests` (
+  `contact_id` int NOT NULL AUTO_INCREMENT,
+  `account_number` bigint NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `subject` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `submission_date` timestamp NOT NULL,
+  `status` varchar(20) DEFAULT 'OPEN',
+  PRIMARY KEY (`contact_id`),
+  KEY `idx_contact_account` (`account_number`),
+  KEY `idx_contact_status` (`status`),
+  CONSTRAINT `contact_requests_ibfk_1` FOREIGN KEY (`account_number`) REFERENCES `customer` (`ACC_NO`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contact_requests`
+--
+
+LOCK TABLES `contact_requests` WRITE;
+/*!40000 ALTER TABLE `contact_requests` DISABLE KEYS */;
+INSERT INTO `contact_requests` VALUES (1,1100110047,'venki','venki@gmail.com','9632974678','Transaction Issue','im getting trantion issues ','2025-05-15 14:19:31','OPEN'),(2,1100110047,'venki','venki@gmail.com','9632974678','Transaction Issue','amount is not credited ','2025-05-18 13:05:40','OPEN');
+/*!40000 ALTER TABLE `contact_requests` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customer`
+--
+
+DROP TABLE IF EXISTS `customer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `customer` (
+  `ACC_NO` bigint NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(45) NOT NULL,
+  `PHONE` bigint NOT NULL,
+  `MAIL` varchar(45) NOT NULL,
+  `BALANCE` decimal(12,2) NOT NULL DEFAULT '0.00',
+  `PIN` int NOT NULL,
+  PRIMARY KEY (`ACC_NO`),
+  UNIQUE KEY `MAIL_UNIQUE` (`MAIL`),
+  UNIQUE KEY `PHONE_UNIQUE` (`PHONE`)
+) ENGINE=InnoDB AUTO_INCREMENT=1100110050 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customer`
+--
+
+LOCK TABLES `customer` WRITE;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+INSERT INTO `customer` VALUES (1100110011,'ravi',8123179157,'rkkumbar97@gmail.com',0.00,1234),(1100110046,'soma',8123179156,'soma@gmail.com',500.00,7862),(1100110047,'venki',9632974678,'venki@gmail.com',6600.00,8906),(1100110048,'vishwas',8123179151,'rk97@gmail.com',600.00,7862),(1100110049,'Shreya  b',8123169789,'Shreya@gmail.com',1800.00,7862);
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `passbook`
+--
+
+DROP TABLE IF EXISTS `passbook`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `passbook` (
+  `TRAN_ID` bigint NOT NULL,
+  `USER_ACC` bigint NOT NULL,
+  `REC_ACC` bigint NOT NULL,
+  `TRAN_DATE` datetime NOT NULL,
+  `TRAN_TYPE` varchar(45) DEFAULT NULL,
+  `AMOUNT` decimal(12,2) NOT NULL,
+  `BALANCE` decimal(12,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `passbook`
+--
+
+LOCK TABLES `passbook` WRITE;
+/*!40000 ALTER TABLE `passbook` DISABLE KEYS */;
+INSERT INTO `passbook` VALUES (829620868197811,1100110047,1100110047,'2025-05-15 00:27:15','CREDITED',5000.00,5000.00),(463633351574470,1100110047,1100110046,'2025-05-15 00:27:54','DEBITED',1000.00,4000.00),(463633351574470,1100110046,1100110047,'2025-05-15 00:27:54','CREDITED',1000.00,1000.00),(395865276852610,1100110047,1100110047,'2025-05-15 00:28:25','CREDITED',1500.00,5500.00),(999584650363576,1100110046,1100110047,'2025-05-15 00:29:20','DEBITED',200.00,800.00),(999584650363576,1100110047,1100110046,'2025-05-15 00:29:20','CREDITED',200.00,5700.00),(650094295656495,1100110046,1100110047,'2025-05-15 00:29:35','DEBITED',200.00,600.00),(650094295656495,1100110047,1100110046,'2025-05-15 00:29:35','CREDITED',200.00,5900.00),(254058001142866,1100110046,1100110047,'2025-05-15 00:29:48','DEBITED',100.00,500.00),(254058001142866,1100110047,1100110046,'2025-05-15 00:29:48','CREDITED',100.00,6000.00),(750723567994625,1100110048,1100110048,'2025-05-15 15:11:33','CREDITED',1000.00,1000.00),(446561030186052,1100110048,1100110047,'2025-05-15 15:12:02','DEBITED',400.00,600.00),(446561030186052,1100110047,1100110048,'2025-05-15 15:12:02','CREDITED',400.00,6400.00),(452564245595365,1100110049,1100110049,'2025-05-15 15:54:49','CREDITED',2000.00,2000.00),(440037058775366,1100110049,1100110047,'2025-05-15 15:56:13','DEBITED',200.00,1800.00),(440037058775366,1100110047,1100110049,'2025-05-15 15:56:13','CREDITED',200.00,6600.00);
+/*!40000 ALTER TABLE `passbook` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-05-18 18:37:24
